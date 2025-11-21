@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartSpend - Daily Money Tracking</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <button class="navbar-logo" onclick="navigateTo('home')">
+        <span class="logo-icon">💰</span>
+        <span>SmartSpend</span>
+      </button>
+      <div class="navbar-links">
+        <button class="nav-link active" data-page="home" onclick="navigateTo('home')">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-text">Home</span>
+        </button>
+        <button class="nav-link" data-page="recents" onclick="navigateTo('recents')">
+          <span class="nav-icon">📜</span>
+          <span class="nav-text">History</span>
+        </button>
+        <button class="nav-link" data-page="analytics" onclick="navigateTo('analytics')">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">Analytics</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+      <div class="container">
+        <div class="header">
+          <h1 class="page-title">
+            <span class="title-icon">📈</span>
+            SmartSpend
+          </h1>
+          <p class="page-date" id="current-date"></p>
+        </div>
+
+        <!-- Today's Total Card -->
+        <div class="card total-card">
+          <p class="card-label">Today's Total</p>
+          <p class="total-amount" id="today-total">$0.00</p>
+        </div>
+
+        <!-- Add Spending Form -->
+        <form class="card form-card" onsubmit="handleAddSpending(event)">
+          <h2 class="card-title">Add Spending</h2>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label">Amount ($)</label>
+                <input 
+                  type="number" 
+                  id="amount-input" 
+                  step="0.01" 
+                  placeholder="0.00" 
+                  class="form-input"
+                  required
+                >
+              </div>
+              <div class="form-field">
+                <label class="form-label">Category</label>
+                <input 
+                  type="text" 
+                  id="category-input" 
+                  placeholder="e.g., Food, Transport, Games" 
+                  class="form-input"
+                  required
+                >
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Description</label>
+              <input 
+                type="text" 
+                id="description-input" 
+                placeholder="What did you spend on?" 
+                class="form-input"
+                required
+              >
+            </div>
+            <button type="submit" class="btn btn-primary">Add Spending</button>
+          </div>
+        </form>
+
+        <!-- Tip Bubble -->
+        <div id="tip-container"></div>
+
+        <!-- Today's Spendings List -->
+        <div class="card spendings-card">
+          <h2 class="card-title">Today's Spendings</h2>
+          <div id="spendings-list" class="spendings-list">
+            <p class="empty-message">No spendings yet. Add one to get started!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recents Page -->
+    <div id="recents-page" class="page">
+      <div class="container">
+        <div class="header">
+          <h1 class="page-title">History</h1>
+          <p class="page-subtitle">Your spending timeline</p>
+        </div>
+
+        <div id="clear-history-btn-container"></div>
+
+        <div id="recents-list" class="recents-list">
+          <div class="card">
+            <p class="empty-message">No spending history yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Page -->
+    <div id="analytics-page" class="page">
+      <div class="container">
+        <div class="header">
+          <h1 class="page-title">Analytics</h1>
+          <p class="page-subtitle">Your spending insights</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <p class="stat-label">Total Spent</p>
+            <p class="stat-value" id="total-spent">$0.00</p>
+          </div>
+          <div class="card stat-card">
+            <p class="stat-label">Average Daily</p>
+            <p class="stat-value" id="avg-daily">$0.00</p>
+          </div>
+        </div>
+
+        <!-- Weekly Chart -->
+        <div class="card chart-card">
+          <h2 class="card-title">Weekly Spending</h2>
+          <canvas id="weekly-chart" height="80"></canvas>
+        </div>
+
+        <!-- Category Chart -->
+        <div class="card chart-card">
+          <h2 class="card-title">Category Distribution</h2>
+          <div class="chart-container">
+            <canvas id="category-chart" height="100"></canvas>
+          </div>
+        </div>
+
+        <!-- Trend Chart -->
+        <div class="card chart-card">
+          <h2 class="card-title">Spending Trend</h2>
+          <canvas id="trend-chart" height="80"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
